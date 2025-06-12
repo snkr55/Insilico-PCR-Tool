@@ -15,12 +15,6 @@ This Python script performs an in-silico simulation of the Polymerase Chain Reac
 * Python 3.x
 * Biopython library
 
-The script will:
-
-* Validate the primers based on their melting temperature.
-* Perform the in-silico PCR by finding suitable primer binding positions.
-* Print a list of predicted PCR products within the allowed size range.
-
 ## Default Parameters
 
 | Parameter      | Value       | Description                                   |
