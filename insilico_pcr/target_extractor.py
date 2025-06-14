@@ -49,14 +49,14 @@ def extract_target(gene_seq, min_target_size=100, max_target_size=200, flank=50)
                     print(f"\nYou have selected a target region of {target_size} bp.")
                     print(f"Target size must be in the range from {min_target_size} to {max_target_size} bp. Please enter valid coordinates.")
                     continue
-                if (start-flank) < 0 or (end+flank) > (len(gene_seq)-1):
+                if (start-flank-1) < 0 or (end+flank) > (len(gene_seq)-1): # Validating presence of sufficent flanking sequence
                     print(f"Insufficient flanking sequence: at least {flank} bp is required on both ends of the selected target region for primer binding. Please enter valid coordinates.")
                     continue
                 else:
                     print(f"\nYou have selected a target region of {target_size} bp.")
                     target_seq = gene_seq[start:end+1]
                     print(f"Selected targeted sequenec:\n{target_seq}")
-                    return target_seq, start, end
+                    return target_seq, start, end, flank
         
         elif choice == 2:
             while True:
@@ -74,12 +74,12 @@ def extract_target(gene_seq, min_target_size=100, max_target_size=200, flank=50)
                         print(f"\nYou have selected a target region of {target_size} bp.")
                         print(f"Target size must be in the range from {min_target_size} to {max_target_size} bp. Please enter valid target sequence.")
                         continue
-                    if (start-flank) < 0 or (end+flank) > (len(gene_seq)-1):
+                    if (start-flank-1) < 0 or (end+flank) > (len(gene_seq)-1):
                         print(f"Insufficient flanking sequence: at least {flank} bp is required on both ends of the selected target region for primer binding. Please enter valid target sequence.")
                         continue
                     else:
                         print(f"\nYou have selected a target region of {target_size} bp, at positions {start+1}-{end+1}.")
-                        return target_seq, start, end
+                        return target_seq, start, end, flank
 
         else:
             print("Invalid choice.")
@@ -87,5 +87,6 @@ def extract_target(gene_seq, min_target_size=100, max_target_size=200, flank=50)
 
 
 #dna = handle_fasta(r"C:\Users\DELL\Documents\Personal\PORTFOLIO\Insilico-PCR-Tool\data\ACTB_cds.fasta")
-#extract_target(dna)
+#t = extract_target(dna)
+#print(t)
 
