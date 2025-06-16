@@ -101,6 +101,4 @@ for index, product in enumerate(pcr_products, 1):
     print(f"Start Position: {product['start']} | End Position: {product['end']} | Amplicon length: {product['length']}")
     print(f"PCR Product: {product['amplicon_seq']}")
     print(f"-"*80)
-
-
-
+    
