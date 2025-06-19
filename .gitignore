@@ -1,0 +1,60 @@
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+pcr_env/
+env/
+.venv/
+.ENV/
+ENV/
+
+# VS Code and other editor configs
+.vscode/
+.idea/
+
+# macOS and Linux system files
+.DS_Store
+Thumbs.db
+
+# Logs and debug files
+*.log
+
+# Python-specific cache and settings
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Testing
+.coverage
+.cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Pipenv
+Pipfile.lock
+
+# PyInstaller
+*.spec
+
+# Pyre type checker
+.pyre/
+
+# MyPy type checker
+.mypy_cache/
+
+# Bandit security scanner
+bandit.yaml
+
+# Unit test / coverage reports
+htmlcov/

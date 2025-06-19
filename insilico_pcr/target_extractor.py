@@ -55,7 +55,7 @@ def extract_target(gene_seq, min_target_size=100, max_target_size=200, flank=50)
                 else:
                     print(f"\nYou have selected a target region of {target_size} bp.")
                     target_seq = gene_seq[start:end+1]
-                    print(f"Selected targeted sequenec:\n{target_seq}")
+                    print(f"Selected targeted sequence:\n{target_seq}")
                     return target_seq, start, end, flank
         
         elif choice == 2:
@@ -83,10 +83,3 @@ def extract_target(gene_seq, min_target_size=100, max_target_size=200, flank=50)
 
         else:
             print("Invalid choice.")
-            continue
-
-
-#dna = handle_fasta(r"C:\Users\DELL\Documents\Personal\PORTFOLIO\Insilico-PCR-Tool\data\ACTB_cds.fasta")
-#t = extract_target(dna)
-#print(t)
-

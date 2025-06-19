@@ -42,7 +42,8 @@ def calculate_primer_characteristics(primer):
     hairpin = primer3.calc_hairpin(primer)
     homodimer = primer3.calc_homodimer(primer)
 
-    return {
+    results = {
+        'primer': primer,
         'length': length,
         'gc': gc,
         'tm': tm,
@@ -53,46 +54,44 @@ def calculate_primer_characteristics(primer):
         'homodimer_found': homodimer.structure_found,
     }
 
+    return results
+
 
 def validate_primers(primer):
     primer_data = calculate_primer_characteristics(primer)
-    if primer_data['length'] not in range (MIN_LEN, MAX_LEN+1):
-        return False
-    if primer_data['gc'] not in range (MIN_GC, MAX_GC+1):
-        return False
-    if primer_data['tm'] not in range (MIN_TM, MAX_TM+1):
-        return False
-    if primer_data['has_homopolymer'] == True:
-        return False
-    if primer_data['hairpin_found'] == True:
-        return False
-    if primer_data['homodimer_found'] == True:
-        return False
+    if not(MIN_LEN <= primer_data['length'] <= MAX_LEN) or\
+        not(MIN_GC <= primer_data['gc'] <= MAX_GC) or \
+        not(MIN_TM <= primer_data['tm'] <= MAX_TM) or \
+        primer_data['has_homopolymer'] == True or \
+        primer_data['hairpin_found'] == True:
+        #primer_data['homodimer_found'] == True:
+        return False, primer_data
     
-    return True
+    return True, primer_data
 
 
-def calculate_primer_pair_characteristics(fwdp,revp):
-    fwdp_data = calculate_primer_characteristics(fwdp)
-    revp_data = calculate_primer_characteristics(revp)
+def calculate_primer_pair_characteristics(fp ,rp):
+    fwdp_data = calculate_primer_characteristics(fp)
+    revp_data = calculate_primer_characteristics(rp)
     
     delta_tm = abs(fwdp_data['tm'] - revp_data['tm'])
-    cross_dimer = primer3.calcHeterodimer(fwdp, revp)
-    cross_dimer_dG = cross_dimer.dg if cross_dimer.structure_found else 0
+    cross_dimer = primer3.calc_heterodimer(fp, rp)
 
     results = {
-        'forward': fwdp_data,
-        'reverse': revp_data,
-        'cross_dimer_dG': cross_dimer_dG,
-        'delta_tm': delta_tm,
-        'passes': True
+        'fp': fwdp_data,
+        'rp': revp_data,
+        'cross_dimer_found': cross_dimer.structure_found,
+        'cross_dimer_dG': cross_dimer.dg if cross_dimer.structure_found else 0,
+        'delta_tm': delta_tm
     }
 
     return results
 
-
-
-#primer_data = calculate_primer_characteristics("GAGAAAATCTGGCACCACACCTTCTACAATG")
-#print(primer_data)
-#validate_primers("GAGAAAATCTGGCACCACACCTTCTACAATG")
+def validate_primer_pairs(fp, rp):
+    primer_pair_data = calculate_primer_pair_characteristics(fp, rp)
+    if primer_pair_data['delta_tm'] > MAX_TM_DIFF: \
+        #or primer_pair_data['cross_dimer_found'] == True:
+        return False, primer_pair_data
+    
+    return True, primer_pair_data
 

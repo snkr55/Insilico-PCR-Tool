@@ -1,39 +1,34 @@
-# To perform in-silico PCR
-
-print("In-silico PCR")
-
-# Importing Libraries
 
 from Bio.Seq import Seq
 from Bio.SeqUtils import MeltingTemp as mt 
 
 
-# User input
+# # User input
 
 
-dna = input("Enter template sequence: ").strip().upper().replace(" ", "")
-fp = input("Enter forward primer (5' to 3'): ").strip().upper()
-rp = input("Enter reverse primer (5' to 3'): ").strip().upper()
+# dna = input("Enter template sequence: ").strip().upper().replace(" ", "")
+# fp = input("Enter forward primer (5' to 3'): ").strip().upper()
+# rp = input("Enter reverse primer (5' to 3'): ").strip().upper()
 
-#dna = Seq("AATGCTACCGGGCCGCTATCACGATGCGGGCGCTCGCTAGCGTTGATCTACCGGGCCGCTATCAGGTACGATCGTAGCTGCGGGCGCTCGCTAGCAGCTTACCGGGCCGCTATCAGGCGGGCGCTCGCTAGCATCG")
-#fp = "TACCGGGCCGCTATCA"
-#rp = "GCTAGCGAGCGCCCGC"
+# dna = Seq("AATGCTACCGGGCCGCTATCACGATGCGGGCGCTCGCTAGCGTTGATCTACCGGGCCGCTATCAGGTACGATCGTAGCTGCGGGCGCTCGCTAGCAGCTTACCGGGCCGCTATCAGGCGGGCGCTCGCTAGCATCG")
+# fp = "TACCGGGCCGCTATCA"
+# rp = "GCTAGCGAGCGCCCGC"
 
 
-# Parameters
+# # Parameters
 
 
 tm_range = (50,65)
-min_amplicon_size = 20
-max_amplicon_size = 50
-max_mismatch_allowed = 1
+min_amplicon_size = 100
+max_amplicon_size = 250
+MAX_MISMATCH_ALLOWED = 1
 
 
 # Primer matching function
 
 
-def primer_match_positions(primer,dna,max_mismatch_allowed):
-    matches = []
+def primer_match_positions(primer,dna,max_mismatch_allowed=MAX_MISMATCH_ALLOWED):
+    match_positions = []
     for i in range(len(dna) - len(primer) + 1):
         window = dna[i : i + len(primer)]
         #print(i, window)
@@ -46,10 +41,10 @@ def primer_match_positions(primer,dna,max_mismatch_allowed):
         mismatch_count = mismatch
         #print(i,mismatch)
         if mismatch_count <= max_mismatch_allowed:
-            matches.append(i)
+            match_positions.append(i)
     #print(matches)
 
-    return matches
+    return match_positions
 
 
 # Running In-silico PCR simulation function
@@ -57,24 +52,24 @@ def primer_match_positions(primer,dna,max_mismatch_allowed):
 
 def run_insilico_pcr(dna,fp,rp):
 
-    fp_tm = round(mt.Tm_NN(Seq(fp)), 3)
-    rp_tm = round(mt.Tm_NN(Seq(rp)), 3)
-    print(f"Forward Primer Tm: {fp_tm}°C")
-    print(f"Reverse Primer Tm: {rp_tm}°C")
-    if not (tm_range[0] <= fp_tm <= tm_range[1]) or not (tm_range[0] <= rp_tm <= tm_range[1]):
-        print(f"The melting temperature of one or both primers are not within the compatible Tm range ({tm_range[0]}°C-{tm_range[1]}°C)")
-        print(f"Forward Primer Tm: {fp_tm}°C")
-        print(f"Reverse Primer Tm: {rp_tm}°C")
-        return None
-    else:
-        print(f"The melting temperature of both primers are within the compatible Tm range ({tm_range[0]}°C-{tm_range[1]}°C)")
+    # fp_tm = round(mt.Tm_NN(Seq(fp)), 3)
+    # rp_tm = round(mt.Tm_NN(Seq(rp)), 3)
+    # print(f"Forward Primer Tm: {fp_tm}°C")
+    # print(f"Reverse Primer Tm: {rp_tm}°C")
+    # if not (tm_range[0] <= fp_tm <= tm_range[1]) or not (tm_range[0] <= rp_tm <= tm_range[1]):
+    #     print(f"The melting temperature of one or both primers are not within the compatible Tm range ({tm_range[0]}°C-{tm_range[1]}°C)")
+    #     print(f"Forward Primer Tm: {fp_tm}°C")
+    #     print(f"Reverse Primer Tm: {rp_tm}°C")
+    #     return None
+    # else:
+    #     print(f"The melting temperature of both primers are within the compatible Tm range ({tm_range[0]}°C-{tm_range[1]}°C)")
 
-    rp_rev_comp = Seq(rp).reverse_complement()
+    rp_rev_comp = str(Seq(rp).reverse_complement())
 
-    forward_match_positions = primer_match_positions(fp,dna,max_mismatch_allowed)
-    #print(forward_match_positions)
-    reverse_match_positions = primer_match_positions(rp_rev_comp,dna,max_mismatch_allowed)
-    #print(reverse_match_positions)
+    forward_match_positions = primer_match_positions(fp,dna,MAX_MISMATCH_ALLOWED)
+    print(f"\nForward Match Positions: {forward_match_positions}")
+    reverse_match_positions = primer_match_positions(rp_rev_comp,dna,MAX_MISMATCH_ALLOWED)
+    print(f"Reverse Match Positions: {reverse_match_positions}")
 
     results = []
     for forward_start in forward_match_positions:
@@ -92,13 +87,10 @@ def run_insilico_pcr(dna,fp,rp):
     return results
 
 
-
-pcr_products = run_insilico_pcr(dna,fp,rp)
-print("PCR Product(s):")
-print(f"-"*80)
-for index, product in enumerate(pcr_products, 1):
-    print(f"Result {index}")
-    print(f"Start Position: {product['start']} | End Position: {product['end']} | Amplicon length: {product['length']}")
-    print(f"PCR Product: {product['amplicon_seq']}")
-    print(f"-"*80)
-    
+# pcr_products = run_insilico_pcr(dna,fp,rp)
+# print("PCR Product(s):")
+# for index, product in enumerate(pcr_products, 1):
+#     print(f"\nResult {index}")
+#     print(f"Start Position: {product['start']} | End Position: {product['end']} | Amplicon length: {product['length']}")
+#     print(f"PCR Product: {product['amplicon_seq']}")
+#     print(f"-"*80)
