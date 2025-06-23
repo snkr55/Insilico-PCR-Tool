@@ -66,8 +66,8 @@ def filter_valid_primer_candidates(forward_primer_candidates, reverse_primer_can
     fp_df = pd.DataFrame(forward_primers_data)
     rp_df = pd.DataFrame(reverse_primers_data)
 
-    fp_df.to_csv("Insilico-PCR-Tool/results/CandidateForwardPrimers_Data.csv", index=False)
-    rp_df.to_csv("Insilico-PCR-Tool/results/CandidateReversePrimers_Data.csv", index=False)
+    fp_df.to_csv("results/CandidateForwardPrimers_Data.csv", index=False)
+    rp_df.to_csv("results/CandidateReversePrimers_Data.csv", index=False)
 
     return valid_forward_primer_candidates, valid_reverse_primer_candidates
 
@@ -93,7 +93,7 @@ def filter_valid_primer_pair_candidates(primer_pair_candidates):
 
     # Data for all primer pairs
     primer_pair_data_df = pd.json_normalize(primer_pairs_data)
-    primer_pair_data_df.to_csv("Insilico-PCR-Tool/results/CandidatePrimerPairs_Data.csv", index=False)
+    primer_pair_data_df.to_csv("results/CandidatePrimerPairs_Data.csv", index=False)
 
     # Data for only valid primer pairs
     valid_primer_pair_data_table = pd.json_normalize(valid_data_list)

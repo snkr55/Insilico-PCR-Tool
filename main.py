@@ -6,8 +6,10 @@ from insilico_pcr.primer_validator import *
 from insilico_pcr.primer_pair_scoring import score_primer_pairs
 from insilico_pcr.utilitis import *
 from insilico_pcr.pcr_simulator import run_insilico_pcr
+# from insilico_pcr.plot import *
 
-dna = handle_fasta(r"C:\Users\DELL\Documents\Personal\PORTFOLIO\Insilico-PCR-Tool\data\ACTB_cds.fasta")
+
+dna = handle_fasta(r"data\ACTB_cds.fasta")
 TARGET_SEQ, TARGET_START, TARGET_END, FLANK = extract_target(dna)
 
 
@@ -44,24 +46,11 @@ print(f'The top {num_to_print} primer pairs are:\n{top_5_pairs}')
 # Select the primer pair to perform PCR simulation
 rank, fp, rp = select_primer_pair(scored_primer_pairs)
 
+# Simulate PCR
 pcr_products = run_insilico_pcr(dna,fp,rp)
 print("\nPCR Product(s):")
 for index, product in enumerate(pcr_products, 1):
     print(f"\nResult {index}")
     print(f"Start Position: {product['start']} | End Position: {product['end']} | Amplicon length: {product['length']}")
     print(f"PCR Product: {product['amplicon_seq']}")
-    print(f"-"*80)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    print(f"-"*100)

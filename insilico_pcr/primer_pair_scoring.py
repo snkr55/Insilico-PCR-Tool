@@ -56,7 +56,7 @@ def score_primer_pairs(valid_primer_pairs_list, valid_primer_pair_data):
     scored_primer_pair_data.index = scored_primer_pair_data.index + 1
     scored_primer_pair_data.index.name = 'Rank'
 
-    scored_primer_pair_data.to_csv("Insilico-PCR-Tool/results/ScoredPrimerPairs_Data.csv")
+    scored_primer_pair_data.to_csv("results/ScoredPrimerPairs_Data.csv")
 
     return scored_primer_pair_data
 

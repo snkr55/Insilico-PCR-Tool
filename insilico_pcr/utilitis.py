@@ -38,7 +38,7 @@ def add_amplicon_columns(primer_pair_data_table, dna):
     df['amplicon_end'] = amplicon_ends
     df['amplicon_length'] = amplicon_lengths
 
-    # df.to_csv("Insilico-PCR-Tool/results/ValidPrimerPairs_Data.csv", index=False)
+    # df.to_csv("results/ValidPrimerPairs_Data.csv", index=False)
 
     return df
 
@@ -61,10 +61,8 @@ def select_primer_pair(scoredPrimerPairs_df):
             print("\nSelected Primer Pair:")
             fp = scoredPrimerPairs_df.loc[selected_rank,'fp.primer']
             rp = scoredPrimerPairs_df.loc[selected_rank,'rp.primer']
-            print(f"Forward Primer: {fp}")
-            print(f"Primer Length: {scoredPrimerPairs_df.loc[selected_rank,'fp.length']} | Tm: {scoredPrimerPairs_df.loc[selected_rank,'fp.tm']} | GC content: {scoredPrimerPairs_df.loc[selected_rank,'fp.gc']}")
-            print(f"Reverse Primer: {rp}")
-            print(f"Primer Length: {scoredPrimerPairs_df.loc[selected_rank,'rp.length']} | Tm: {scoredPrimerPairs_df.loc[selected_rank,'rp.tm']} | GC content: {scoredPrimerPairs_df.loc[selected_rank,'rp.gc']}")
+            print(f"Forward Primer: {fp} (Length: {scoredPrimerPairs_df.loc[selected_rank,'fp.length']} bp | Tm: {scoredPrimerPairs_df.loc[selected_rank,'fp.tm']}°C | GC content: {scoredPrimerPairs_df.loc[selected_rank,'fp.gc']} %)")
+            print(f"Reverse Primer: {rp} (Length: {scoredPrimerPairs_df.loc[selected_rank,'fp.length']} bp | Tm: {scoredPrimerPairs_df.loc[selected_rank,'rp.tm']}°C | GC content: {scoredPrimerPairs_df.loc[selected_rank,'rp.gc']} %)")
             print(f"Amplicon Length: {scoredPrimerPairs_df.loc[selected_rank,'amplicon_length']}")
             print(f"SCORE: {scoredPrimerPairs_df.loc[selected_rank,'score']}")
             return selected_rank, fp, rp
